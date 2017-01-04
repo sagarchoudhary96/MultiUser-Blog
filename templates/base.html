@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="assets/css/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="assets/css/style.css" media="screen,projection" />
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+
+       <nav class="transparent z-depth-0">
+        <div class="row login-button">
+          <div class="col right" style="margin-right: 5vw;">
+            <a class="waves-effect z-depth-3 transparent push-s1 waves-light btn-large right" style="margin-top: 4vh;">Login/SignUp</a>
+          </div>
+        </div> 
+        <!-- <div class="col right logged-in-chip"  style="margin-right: 20px;">
+          <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
+            <img src="assets/images/yuna.jpg" alt="Contact Person">
+            <span class="white-text">sagar choudhary</span>
+          </div>
+          <div class="chip btn transparent z-depth-2" style="margin-top: 4vh;">
+            <span class="white-text">Sign out</span>
+          </div>
+        </div> -->
+       </nav> 
+       <div class="container">
+        <div class="row" style="margin-top: 10vh;">
+          <div class="col m8 offset-m2 s10 offset-s1">
+            <div class="card animi-shadow z-depth-2">
+              <div class="card-image">
+                <img src="assets/images/blog.jpg" id="post_list" style="height: 35vh" >
+                <span class="card-title">Card Title</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10vh;">
+          <div class="col m8 offset-m2 s10 offset-s1">
+            <div class="card animi-shadow z-depth-2">
+              <div class="card-image">
+                <img src="assets/images/blog.jpg" id="post_list" style="height: 35vh" >
+                <span class="card-title">Card Title</span>
+              </div>
+              <div class="card-content">
+                <p>I am a very simple card. I am good at containing small bits of information.
+                  I am convenient because I require little markup to use effectively.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+      <div class="fixed-action-btn">
+        <a class="btn-floating btn-large waves-effect waves-ripple  deep-orange darken-1 z-depth-2">
+          <i class="large material-icons">description</i>
+        </a>
+        <ul>
+          <li><a class="btn-floating waves-effect waves-ripple green darken-1"><i class="material-icons">add</i></a></li>
+        </ul>
+      </div> 
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="assets/js/materialize.min.js"></script>
+      <script>
+          $(".animi-shadow").hover(
+            function() {
+              $(this).toggleClass('z-depth-1').toggleClass('z-depth-2');
+
+            }
+          )
+
+      </script>
+    </body>
+  </html>
