@@ -51,4 +51,37 @@ body::before {
   .logged-in-chip{
     margin-right: 5vw !important;
   }
+    
+  
+
+}
+
+.font-thin-heading {
+    font-size: 40px !important;
+    font-weight: 200 !important;
+}
+
+.no-margin {
+    margin: 0px;
+}
+
+.date-style {
+    
+    margin-top: 5px !important;
+  }
+
+.translucent-fab {
+    background-color: rgba(11, 9, 33, 0.71)
+}
+
+.fab_menu:hover {
+    background-color: orangered !important;
+}
+
+.menu_add:hover {
+    background-color: #08bf01 !important;
+}
+
+.menu_edit:hover {
+    background-color: #e8bb00 !important;
 }
