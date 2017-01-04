@@ -85,3 +85,23 @@ body::before {
 .menu_edit:hover {
     background-color: #e8bb00 !important;
 }
+
+.like_button {
+    background-color: rgba(255,255,255,1);
+    float: right;
+	position: relative;
+	margin-top: -47px;
+}
+
+.like {
+    font-size: 1.7rem !important;
+    font-weight: 300;
+}
+
+.like_button:hover{
+    background-color: white;
+}
+
+.starred {
+    color: grey !important;
+}
