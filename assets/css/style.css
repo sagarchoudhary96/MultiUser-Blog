@@ -105,3 +105,106 @@ body::before {
 .starred {
     color: grey !important;
 }
+
+@media only screen and (max-width: 340px) {
+  .like {
+    font-size: 1.5rem !important;
+    font-weight: 300;
+    }
+}
+
+.textarea-nopadding {
+    padding: 0 !important;
+    font-size: 1.4rem !important;
+    border-bottom: 1px solid red ;
+}
+
+.label-font.active {
+    font-size: 1.2rem !important;
+    font-weight: 300;
+    color: orange !important;
+}
+
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #575a5d;
+    box-shadow: 0 1px 0 0 #575a5d;
+    
+}
+
+.comment-section {
+  margin-top: 0;
+}
+
+.comment-section .image-holder {
+  float: left;
+  margin-right: 15px;
+}
+
+.comment-section .image-holder img {
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+}
+
+.comment-section .comment-desc {
+  height: 1%;
+  overflow: hidden;
+}
+
+.comment-section .comment-desc .user-desv .userlinks {
+  display: inline-block;
+  margin-right: 20px;
+  vertical-align: top;
+  margin-bottom: 5px;
+}
+
+.comment-section .comment-desc .user-desv .user-name {
+  font-size: 14px;
+  color: #545454;
+}
+
+.comment-section .comment-desc .user-desv a {
+  color: #f7931d;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.comment-section .comment-desc .user-desv .muted-txt {
+  color: #575a5d;
+  font-size: 13px;
+}
+
+.comment-section .comment-desc .likes-sec {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.comment-section .comment-desc .likes-sec img {
+  width: 15px;
+  height: 15px;
+  vertical-align: top;
+}
+
+.comment-section .comment-desc .likes-sec a {
+  font-size: 12px;
+  color: orange;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+.comment-section .comment-desc .questions {
+  font-size: 22px;
+  color: #545454;
+  margin-top: 5px;
+.}
+
+.btn-edit-del {
+    color: #5f5a5a !important;
+    font-size: 30px;
+}
+
+.btn-check{
+    margin-top: 2.5vh;
+}
