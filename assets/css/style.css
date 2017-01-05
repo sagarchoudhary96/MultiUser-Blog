@@ -213,3 +213,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .no-padding {
     padding: 0;
 }
+
+.head-margin {
+    margin-top: 10vh;
+}
