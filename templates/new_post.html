@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="../assets/css/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="../assets/css/style.css" media="screen,projection" />
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <!--Navigation tab-->
+       <nav class="transparent z-depth-0">
+         <div class="col right logged-in-chip"  style="margin-right: 20px;">
+          <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
+            <img src="../assets/images/yuna.jpg" alt="Contact Person">
+            <span class="white-text">sagar choudhary</span>
+          </div>
+          <div class="chip btn transparent z-depth-2" style="margin-top: 4vh;">
+            <span class="white-text">Sign out</span>
+          </div>
+        </div> 
+       </nav>
+       
+       <div class="fixed-action-btn">
+        <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
+          <i class="large material-icons">description</i>
+        </a>
+        <ul>
+          <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab"><i class="material-icons">add</i></a></li>
+        </ul>
+      </div> 
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
+      <script>
+          $(".animi-shadow").hover(
+            function() {
+              $(this).toggleClass('z-depth-1').toggleClass('z-depth-2');
+
+            }
+          )
+
+      </script>
+    </body>
+</html>
