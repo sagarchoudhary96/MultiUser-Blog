@@ -61,7 +61,6 @@ body, input, button {
 }
 .login form input.form-control {
   display: block;
-  width: auto;
   height: auto;
   border: none;
   outline: none;
@@ -109,6 +108,10 @@ body, input, button {
 .float:hover, .float:focus, .float:active {
   -webkit-transform: translateY(-3px);
   transform: translateY(-3px);
+}
+
+input {
+    width: 93% !important;
 }
 
 /* Large Devices, Wide Screens */
@@ -163,4 +166,9 @@ body, input, button {
     font-size: 0.7em;
     min-height: 0;
   }
+   
+    input {
+        width: 80% !important;
+    }
 }
+
