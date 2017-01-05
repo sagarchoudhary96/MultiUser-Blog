@@ -208,3 +208,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .btn-check{
     margin-top: 2.5vh;
 }
+
+
+.no-padding {
+    padding: 0;
+}
