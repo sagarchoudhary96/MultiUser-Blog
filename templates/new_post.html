@@ -24,39 +24,40 @@
        </nav>
        
        <!-- Main Content -->
-       <div class="container head-margin">
+       <div class="container" style="margin-top: 5vh;">
          <div class="row">
-          <form class="col m8 offset-m2 s10 offset-s1">
-              <div class="row">
-                 <div class="input-field z-depth-1 col s12
-                 post-edit-new animi-shadow">
-                  <input id="post-title" type="text" class="validate white-text">
-                  <label for="post-title">Title</label>
-                </div> 
-              </div>
-              
-              <div class="row">
-                 <div class="input-field z-depth-1 col s12 post-edit-new animi-shadow" style="margin-top: 1vh;">
-                  <input id="post-image-url" type="text" class="validate white-text">
-                  <label for="post-image-url">Image Url</label>
-                </div> 
-              </div>
-              
-              <div class="row">
-                 <div class="input-field z-depth-1 col s12 post-edit-new animi-shadow" style="margin-top: 4vh;">
-                  <textarea class="materialize-textarea content-textarea white-text" id="post-content" cols="30" rows="100"></textarea>
-                  <label for="post-content" class="content-label">Content</label>   
-                 </div>
-              </div>
-              <div class="row">
-                 
-                    <button type= "submit" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>   
-                        
-              </div>
+          <form class="col m8 offset-m2 s10 offset-s1 post-edit-new post-edit-new-padding">
+            
+                     <div class="row">
+                         <div class="input-field col s10 offset-s1  animi-shadow">
+                          <input id="post-title" type="text" class="validate white-text">
+                          <label for="post-title">Title</label>
+                         </div> 
+                     </div>
+
+                     <div class="row">
+                         <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 1vh;">
+                          <input id="post-image-url" type="text" class="validate white-text">
+                          <label for="post-image-url">Image Url</label>
+                        </div> 
+                     </div>
+
+                     <div class="row">
+                         <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 4vh;">
+                          <textarea class="materialize-textarea content-textarea white-text" id="post-content" cols="30" rows="100"></textarea>
+                          <label for="post-content" class="content-label">Content</label>   
+                         </div>
+                     </div>
+                     
+                    <div class="row">
+                        <div class="col s10 offset-s1">
+                            <button type= "submit" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>   
+                        </div>
+                    </div>   
+
           </form>
-          </div>
-         </div> 
-       </div>
+         </div>
+        </div> 
        
        
        <!-- Fab button -->
@@ -68,13 +69,6 @@
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
-      <script>
-          $(".animi-shadow").hover(
-            function() {
-              $(this).toggleClass('z-depth-1').toggleClass('z-depth-2');
-
-            }
-          )
-      </script>
+      <script type="text/javascript" src="../assets/js/app.js"></script>
     </body>
 </html>
