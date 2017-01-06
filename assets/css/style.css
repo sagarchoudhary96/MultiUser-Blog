@@ -218,7 +218,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
     margin-top: 10vh;
 }
 
-.input-field label {
+.label-new-edit {
     color: #dedede; 
     font-size: 20px;
    }
