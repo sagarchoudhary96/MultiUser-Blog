@@ -257,9 +257,19 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 
 .post-edit-new {
     background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
+    border-radius: 5px; 
 }
 
 .btn.post-edit-new:hover {
     background-color: rgba(0, 0, 0, 0.3);
+}
+
+.post-detail-content {
+    font-size: 1.4rem !important;
+    padding: 5vh 1vw 3vh 1vw; 
+    
+}
+
+.post-edit-new-padding {
+    padding:  3vh 0 3vh 0 !important;
 }
