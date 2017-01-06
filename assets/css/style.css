@@ -10,50 +10,41 @@ body::before {
     top: 0;
     position: fixed;
 }
-@media (max-width: 512px)  and (-webkit-min-device-pixel-ratio: 1.5),
-       (max-width: 512px)  and (min-resolution: 1.5dppx),
-       (max-width: 1024px) and (-webkit-max-device-pixel-ratio: 1.5),
-       (max-width: 1024px) and (max-resolution: 1.5dppx) {
-  body::before {
-    background-image: url('../images/bg1024.jpg');
-  }
+
+@media (max-width: 512px) and (-webkit-min-device-pixel-ratio: 1.5), (max-width: 512px) and (min-resolution: 1.5dppx), (max-width: 1024px) and (-webkit-max-device-pixel-ratio: 1.5), (max-width: 1024px) and (max-resolution: 1.5dppx) {
+    body::before {
+        background-image: url('../images/bg1024.jpg');
+    }
 }
-@media (min-width: 513px)  and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1.5),
-       (min-width: 513px)  and (max-width: 1024px) and (min-resolution: 1.5dppx),
-       (min-width: 1025px) and (max-width: 2048px) and (-webkit-max-device-pixel-ratio: 1.5),
-       (min-width: 1025px) and (max-width: 2048px) and (max-resolution: 1.5dppx)  {
-  body::before {
-    background-image: url('../images/bg2048.jpg');
-  }
+
+@media (min-width: 513px) and (max-width: 1024px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 513px) and (max-width: 1024px) and (min-resolution: 1.5dppx), (min-width: 1025px) and (max-width: 2048px) and (-webkit-max-device-pixel-ratio: 1.5), (min-width: 1025px) and (max-width: 2048px) and (max-resolution: 1.5dppx) {
+    body::before {
+        background-image: url('../images/bg2048.jpg');
+    }
 }
-@media (min-width: 1025px) and (-webkit-min-device-pixel-ratio: 1.5),
-       (min-width: 1025px) and (min-resolution: 1.5dppx),
-       (min-width: 2049px) and (-webkit-max-device-pixel-ratio: 1.5),
-       (min-width: 2049px) and (max-resolution: 1.5dppx) {
-  body::before {
-    background-image: url('../images/bg2880.jpg');
-  }
+
+@media (min-width: 1025px) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 1025px) and (min-resolution: 1.5dppx), (min-width: 2049px) and (-webkit-max-device-pixel-ratio: 1.5), (min-width: 2049px) and (max-resolution: 1.5dppx) {
+    body::before {
+        background-image: url('../images/bg2880.jpg');
+    }
 }
 
 @media only screen and (max-width: 600px) {
-  #post_list{
-    height: 20vh !important;
-  }
+    #post_list {
+        height: 20vh !important;
+    }
 }
 
 @media only screen and (max-width: 600px) {
-  .login-button{
-    margin-right: 5vw !important;
-  }
+    .login-button {
+        margin-right: 5vw !important;
+    }
 }
 
 @media only screen and (min-width: 600px) {
-  .logged-in-chip{
-    margin-right: 5vw !important;
-  }
-    
-  
-
+    .logged-in-chip {
+        margin-right: 5vw !important;
+    }
 }
 
 .font-thin-heading {
@@ -66,9 +57,8 @@ body::before {
 }
 
 .date-style {
-    
     margin-top: 5px !important;
-  }
+}
 
 .translucent-fab {
     background-color: rgba(11, 9, 33, 0.71)
@@ -87,10 +77,10 @@ body::before {
 }
 
 .like_button {
-    background-color: rgba(255,255,255,1);
+    background-color: rgba(255, 255, 255, 1);
     float: right;
-	position: relative;
-	margin-top: -47px;
+    position: relative;
+    margin-top: -47px;
 }
 
 .like {
@@ -98,7 +88,7 @@ body::before {
     font-weight: 300;
 }
 
-.like_button:hover{
+.like_button:hover {
     background-color: white;
 }
 
@@ -107,16 +97,16 @@ body::before {
 }
 
 @media only screen and (max-width: 340px) {
-  .like {
-    font-size: 1.5rem !important;
-    font-weight: 300;
+    .like {
+        font-size: 1.5rem !important;
+        font-weight: 300;
     }
 }
 
 .textarea-nopadding {
     padding: 0 !important;
     font-size: 1.4rem !important;
-    border-bottom: 1px solid red ;
+    border-bottom: 1px solid red;
 }
 
 .label-font.active {
@@ -128,136 +118,131 @@ body::before {
 textarea.materialize-textarea:focus:not([readonly]) {
     border-bottom: 1px solid #575a5d;
     box-shadow: 0 1px 0 0 #575a5d;
-    
 }
 
 .comment-section {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .comment-section .image-holder {
-  float: left;
-  margin-right: 15px;
+    float: left;
+    margin-right: 15px;
 }
 
 .comment-section .image-holder img {
-  height: 50px;
-  width: 50px;
-  border-radius: 100%;
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
 }
 
 .comment-section .comment-desc {
-  height: 1%;
-  overflow: hidden;
+    height: 1%;
+    overflow: hidden;
 }
 
 .comment-section .comment-desc .user-desv .userlinks {
-  display: inline-block;
-  margin-right: 20px;
-  vertical-align: top;
-  margin-bottom: 5px;
+    display: inline-block;
+    margin-right: 20px;
+    vertical-align: top;
+    margin-bottom: 5px;
 }
 
 .comment-section .comment-desc .user-desv .user-name {
-  font-size: 14px;
-  color: #545454;
+    font-size: 14px;
+    color: #545454;
 }
 
 .comment-section .comment-desc .user-desv a {
-  color: #f7931d;
-  font-size: 13px;
-  text-decoration: none;
+    color: #f7931d;
+    font-size: 13px;
+    text-decoration: none;
 }
 
 .comment-section .comment-desc .user-desv .muted-txt {
-  color: #575a5d;
-  font-size: 13px;
+    color: #575a5d;
+    font-size: 13px;
 }
 
 .comment-section .comment-desc .likes-sec {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .comment-section .comment-desc .likes-sec img {
-  width: 15px;
-  height: 15px;
-  vertical-align: top;
+    width: 15px;
+    height: 15px;
+    vertical-align: top;
 }
 
 .comment-section .comment-desc .likes-sec a {
-  font-size: 12px;
-  color: orange;
-  text-decoration: none;
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 10px;
+    font-size: 12px;
+    color: orange;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
 }
 
 .comment-section .comment-desc .questions {
-  font-size: 22px;
-  color: #545454;
-  margin-top: 5px;
-.}
+    font-size: 22px;
+    color: #545454;
+    margin-top: 5px;
+    .
+}
 
 .btn-edit-del {
     color: #5f5a5a !important;
     font-size: 30px;
 }
 
-.btn-check{
+.btn-check {
     margin-top: 2.5vh;
 }
-
 
 .no-padding {
     padding: 0;
 }
 
-.head-margin {
-    margin-top: 10vh;
+.label-new-edit {
+    color: #dedede;
+    font-size: 20px;
 }
 
-.label-new-edit {
-    color: #dedede; 
-    font-size: 20px;
-   }
-
-.input-field input[type=text]:focus + label {
-     color: #9e9e9e;
-     font-size: 15px;
-   }
+.input-field input[type=text]:focus+label {
+    color: #9e9e9e;
+    font-size: 15px;
+}
 
 .content-textarea {
     min-height: 15vh !important;
 }
 
 .input-field input[type=text]:focus {
-     border-bottom: 1px solid #575a5d;
-     box-shadow: 0 1px 0 0 #575a5d;
-   }
-.input-field input[type=text].valid {
-    border-bottom: 1px solid rgba(17, 219, 32, 0.56);
-     box-shadow: 0 1px 0 0 rgba(17, 219, 32, 0.56);
+    border-bottom: 1px solid #575a5d;
+    box-shadow: 0 1px 0 0 #575a5d;
 }
 
-.input-field input[type=text].valid + label {
-     font-size: 15px;
-     color: rgba(17, 219, 32, 0.56);
-   }
+.input-field input[type=text].valid {
+    border-bottom: 1px solid rgba(17, 219, 32, 0.56);
+    box-shadow: 0 1px 0 0 rgba(17, 219, 32, 0.56);
+}
+
+.input-field input[type=text].valid+label {
+    font-size: 15px;
+    color: rgba(17, 219, 32, 0.56);
+}
 
 .content-label.active {
-    
     font-size: 15px !important;
 }
 
-textarea.materialize-textarea:focus:not([readonly]) + label {
+textarea.materialize-textarea:focus:not([readonly])+label {
     color: #575a5d;
 }
 
 .post-edit-new {
     background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 
 .btn.post-edit-new:hover {
@@ -266,10 +251,9 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 
 .post-detail-content {
     font-size: 1.4rem !important;
-    padding: 5vh 1vw 3vh 1vw; 
-    
+    padding: 5vh 1vw 3vh 1vw;
 }
 
 .post-edit-new-padding {
-    padding:  3vh 0 3vh 0 !important;
+    padding: 3vh 0 3vh 0 !important;
 }

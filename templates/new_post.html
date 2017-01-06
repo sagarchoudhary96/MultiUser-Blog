@@ -1,74 +1,45 @@
-<!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="../assets/css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="../assets/css/style.css" media="screen,projection" />
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <!-- Navigation tab -->
-       <nav class="transparent z-depth-0">
-         <div class="col right logged-in-chip"  style="margin-right: 20px;">
-          <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
-            <img src="../assets/images/yuna.jpg" alt="Contact Person">
-            <span class="white-text">sagar choudhary</span>
-          </div>
-          <div class="chip btn transparent z-depth-2" style="margin-top: 4vh;">
-            <span class="white-text">Sign out</span>
-          </div>
-        </div> 
-       </nav>
-       
-       <!-- Main Content -->
-       <div class="container" style="margin-top: 5vh;">
-         <div class="row">
-          <form class="col m8 offset-m2 s10 offset-s1 post-edit-new post-edit-new-padding">
-            
-                     <div class="row">
-                         <div class="input-field col s10 offset-s1  animi-shadow">
-                          <input id="post-title" type="text" class="validate white-text">
-                          <label for="post-title" class="label-new-edit">Title</label>
-                         </div> 
-                     </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <form class="col m8 offset-m2 s10 offset-s1 post-edit-new post-edit-new-padding">
 
-                     <div class="row">
-                         <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 1vh;">
-                          <input id="post-image-url" type="text" class="validate white-text">
-                          <label for="post-image-url" class="label-new-edit">Image Url</label>
-                        </div> 
-                     </div>
+            <div class="row">
+                <div class="input-field col s10 offset-s1  animi-shadow">
+                    <input id="post-title" type="text" class="validate white-text">
+                    <label for="post-title" class="label-new-edit">Title</label>
+                </div>
+            </div>
 
-                     <div class="row">
-                         <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 4vh;">
-                          <textarea class="materialize-textarea content-textarea white-text" id="post-content" cols="30" rows="100"></textarea>
-                          <label for="post-content" class="content-label label-new-edit">Content</label>   
-                         </div>
-                     </div>
-                     
-                    <div class="row">
-                        <div class="col s10 offset-s1">
-                            <button type= "submit" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>   
-                        </div>
-                    </div>   
+            <div class="row">
+                <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 1vh;">
+                    <input id="post-image-url" type="text" class="validate white-text">
+                    <label for="post-image-url" class="label-new-edit">Image Url</label>
+                </div>
+            </div>
 
-          </form>
-         </div>
-        </div> 
-       
-       
-       <!-- Fab button -->
-       <div class="fixed-action-btn">
-        <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
-          <i class="large material-icons">home</i>
-        </a>
-      </div> 
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
-      <script type="text/javascript" src="../assets/js/app.js"></script>
-    </body>
-</html>
+            <div class="row">
+                <div class="input-field col s10 offset-s1 animi-shadow" style="margin-top: 4vh;">
+                    <textarea class="materialize-textarea content-textarea white-text" id="post-content" cols="30" rows="100"></textarea>
+                    <label for="post-content" class="content-label label-new-edit">Content</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <button type="submit" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<!-- Fab button -->
+<div class="fixed-action-btn">
+    <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
+        <i class="large material-icons">home</i>
+    </a>
+</div>
+{% endblock%}

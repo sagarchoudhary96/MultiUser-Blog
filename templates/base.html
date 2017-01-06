@@ -12,65 +12,31 @@
 
     <body>
 
-       <nav class="transparent z-depth-0">
-        <div class="row login-button">
-          <div class="col right" style="margin-right: 5vw;">
-            <a class="waves-effect z-depth-3 transparent push-s1 waves-light btn-large right" style="margin-top: 4vh;">Login/SignUp</a>
-          </div>
-        </div> 
-        <!-- <div class="col right logged-in-chip"  style="margin-right: 20px;">
-          <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
-            <img src="assets/images/yuna.jpg" alt="Contact Person">
-            <span class="white-text">sagar choudhary</span>
-          </div>
-          <div class="chip btn transparent z-depth-2" style="margin-top: 4vh;">
-            <span class="white-text">Sign out</span>
-          </div>
-        </div> -->
-       </nav> 
-       <div class="container">
-        <div class="row head-margin">
-          <div class="col m8 offset-m2 s10 offset-s1">
-            <div class="card animi-shadow z-depth-2">
-              <div class="card-image">
-                <img src="../assets/images/blog.jpg" id="post_list" style="height: 35vh" >
-                <span class="card-title">Card Title</span>
-              </div>
-              <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information.
-                  I am convenient because I require little markup to use effectively.</p>
-              </div>
+       <!-- <nav class="transparent z-depth-0" style="margin-bottom: 10vh;">
+          <div class="row login-button">
+            <div class="col right" style="margin-right: 5vw;">
+              <a class="waves-effect z-depth-3 transparent push-s1 waves-light btn-large right" style="margin-top: 4vh;">Login/SignUp</a>
             </div>
           </div>
-        </div>
+          <div class="col right logged-in-chip"  style="margin-right: 20px;">
+            <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
+              <img src="../assets/images/yuna.jpg" alt="Contact Person">
+              <span class="white-text">sagar choudhary</span>
+            </div>
+            <div class="chip btn transparent z-depth-2" style="margin-top: 4vh;">
+              <span class="white-text">Sign out</span>
+            </div>
+          </div>
+       </nav> -->
 
-        <div class="row">
-          <div class="col m8 offset-m2 s10 offset-s1">
-            <div class="card animi-shadow z-depth-2">
-              <div class="card-image">
-                <img src="../assets/images/blog.jpg" id="post_list" style="height: 35vh" >
-                <span class="card-title">Card Title</span>
-              </div>
-              <div class="card-content">
-                <p>I am a very simple card. I am good at containing small bits of information.
-                  I am convenient because I require little markup to use effectively.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> 
-       <div class="fixed-action-btn">
-        <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
-          <i class="large material-icons">description</i>
-        </a>
-        <ul>
-          <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab"><i class="material-icons">add</i></a></li>
-        </ul>
-      </div> 
-      <!--Import jQuery before materialize.js-->
+       <!--Main Content-->
+       {% block content %}
+       {% endblock %}
+
+      <!-- Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
       <script type="text/javascript" src="../assets/js/app.js"></script>
-      
+
     </body>
   </html>
