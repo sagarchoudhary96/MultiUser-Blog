@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <!--Navigation tab-->
+        <!-- Navigation tab -->
        <nav class="transparent z-depth-0">
          <div class="col right logged-in-chip"  style="margin-right: 20px;">
           <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">
@@ -23,13 +23,47 @@
         </div> 
        </nav>
        
+       <!-- Main Content -->
+       <div class="container head-margin">
+         <div class="row">
+          <form class="col m8 offset-m2 s10 offset-s1">
+              <div class="row">
+                 <div class="input-field z-depth-1 col s12
+                 post-edit-new animi-shadow">
+                  <input id="post-title" type="text" class="validate white-text">
+                  <label for="post-title">Title</label>
+                </div> 
+              </div>
+              
+              <div class="row">
+                 <div class="input-field z-depth-1 col s12 post-edit-new animi-shadow" style="margin-top: 1vh;">
+                  <input id="post-image-url" type="text" class="validate white-text">
+                  <label for="post-image-url">Image Url</label>
+                </div> 
+              </div>
+              
+              <div class="row">
+                 <div class="input-field z-depth-1 col s12 post-edit-new animi-shadow" style="margin-top: 4vh;">
+                  <textarea class="materialize-textarea content-textarea white-text" id="post-content" cols="30" rows="100"></textarea>
+                  <label for="post-content" class="content-label">Content</label>   
+                 </div>
+              </div>
+              <div class="row">
+                 
+                    <button type= "submit" class="btn btn-large left waves-effect waves-green float post-edit-new">Submit</button>   
+                        
+              </div>
+          </form>
+          </div>
+         </div> 
+       </div>
+       
+       
+       <!-- Fab button -->
        <div class="fixed-action-btn">
         <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
-          <i class="large material-icons">description</i>
+          <i class="large material-icons">home</i>
         </a>
-        <ul>
-          <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab"><i class="material-icons">add</i></a></li>
-        </ul>
       </div> 
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -41,7 +75,6 @@
 
             }
           )
-
       </script>
     </body>
 </html>
