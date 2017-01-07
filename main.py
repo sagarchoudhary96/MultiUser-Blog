@@ -44,6 +44,14 @@ class Signup(Handler):
         verify_password = self.request.get("verify_password")
         self.write("hello")
 
+class Login(Handler):
+    def get(self):
+        self.render("login.html")
+
+    def post(self):
+        username = self.request.get("username")
+        password = self.request.get("passwd")
+        self.write("You have sucessfully logged in")
 
 class MainPage(Handler):
 
@@ -53,5 +61,6 @@ class MainPage(Handler):
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/signup', Signup)
+    ('/signup', Signup),
+    ('/login', Login)
 ], debug=True)
