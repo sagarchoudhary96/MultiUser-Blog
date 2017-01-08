@@ -89,6 +89,13 @@ class Login(Handler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("passwd")
+        params = ()
+
+        # validation for valid username
+        if not valid_username(username):
+            params['error'] = "That's not a valid username."
+            self.render("login.html", **params)
+
         self.write("You have sucessfully logged in")
 
 class MainPage(Handler):
