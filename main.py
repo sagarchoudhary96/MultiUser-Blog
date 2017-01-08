@@ -33,6 +33,16 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 
+# regex expressions to check for validations
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{1,10}$")
+def valid_username(username):
+    return username and USER_RE.match(username)
+
+EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+def valid_email(email):
+    return not email or EMAIL_RE.match(email)
+
+#handler to manage signup page
 class Signup(Handler):
     def get(self):
         self.render("signup.html")
@@ -42,7 +52,35 @@ class Signup(Handler):
         email = self.request.get("email")
         password = self.request.get("password")
         verify_password = self.request.get("verify_password")
-        self.write("hello")
+        params = dict()
+        params['username'] = username
+        params['email'] = email
+        params['password'] = password
+
+
+        # server side validations
+        # for required values
+        if (username == "" or password == "" or verify_password==""):
+            params['error'] =  "Required Fields can't be Empty"
+            self.render("signup.html", **params)
+
+        # for valid username
+        if not valid_username(username):
+            params['error'] = "That's not a valid username."
+            self.render("signup.html", **params)
+
+        # for valid email
+        if email !="" and not valid_email(email):
+            params['error'] = "That's not a valid email."
+            self.render("signup.html", **params)
+
+        # for password
+        if password != verify_password and password != "" and verify_password != "":
+            params['error'] = "Your passwords didn't match."
+            self.render("signup.html", **params)
+
+        self.write("You have sucessfully signedup :)")
+
 
 class Login(Handler):
     def get(self):
