@@ -136,14 +136,24 @@ class Login(Handler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("passwd")
-        params = ()
+        params = dict()
 
         # validation for valid username
         if not valid_username(username):
             params['error'] = "That's not a valid username."
             self.render("login.html", **params)
 
-        self.write("You have sucessfully logged in")
+        user = UserDB.by_name(username)
+        if not user:
+            params['error'] = "User with this username don't exists. Please Signup First"
+            self.render("login.html", **params)
+        else:
+            password_hash = hash_str(password)
+            if user.password_hash != password_hash:
+                params['error'] = "Incorrect password"
+                self.render("login.html", **params)
+            else:
+                self.write("You have sucessfully logged in")
 
 
 class MainPage(Handler):

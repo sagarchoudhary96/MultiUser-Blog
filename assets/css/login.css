@@ -197,18 +197,18 @@ input {
     font-size: 0.7em;
     min-height: 0;
   }
-   
+
     input {
         width: 80% !important;
     }
 }
 
 .content-background{
-     background-color: rgba(0, 0, 0, 0.8);   
+     background-color: rgba(0, 0, 0, 0.8);
 }
 
 .label-icon{
-     color: #dedede !important; 
+     color: #dedede !important;
 }
 
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -226,4 +226,9 @@ input:-moz-placeholder { /* Firefox 18- */
 
 input:focus:not([readonly]) {
      box-shadow: 0 1px 0 0 rgba(255, 49, 0, 0.6) !important;
+   }
+
+   .login-redirect {
+     font-size: 1.2em;
+     color: #dedede;
    }
