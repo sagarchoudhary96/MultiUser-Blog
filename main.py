@@ -2,6 +2,8 @@
 
 import os
 import re
+import hashlib
+import hmac
 from google.appengine.ext import db
 from string import letters
 
@@ -11,6 +13,14 @@ import webapp2
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
+SECRET = "itssecret"
+
+# methods for password hashing
+def hash_str(s):
+    return hmac.new(SECRET, s).hexdigest()
+
+
+# model for post database
 class Posts(db.Model):
      title = db.StringProperty(required = True)
      imageurl = db.StringProperty(required = True)
@@ -18,7 +28,34 @@ class Posts(db.Model):
      author = db.StringProperty(required = True)
      created = db.DateTimeProperty(auto_now_add = True)
      last_modified = db.DateTimeProperty(auto_now = True)
-     likes = db.IntegerProperty(required = True)
+
+
+def users_key(group = 'default'):
+    return db.Key.from_path('users', group)
+
+# Model for user database
+class UserDB(db.Model):
+    username = db.StringProperty(required = True)
+    email = db.StringProperty()
+    password_hash = db.StringProperty(required = True)
+
+    @classmethod
+    def by_name(cls, uname):
+        u = UserDB.all().filter("username =", uname).get()
+        return u
+
+    @classmethod
+    def by_email(cls, email):
+        u = UserDB.all().filter('email =', email).get()
+        return u
+
+    @classmethod
+    def register(cls, username, password, email):
+        passwd_hash = hash_str(password)
+        return UserDB(parent = users_key(),
+                        username = username,
+                        password_hash = passwd_hash,
+                        email = email)
 
 
 class Handler(webapp2.RequestHandler):
@@ -42,7 +79,8 @@ EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
-#handler to manage signup page
+
+# handler to manage signup page
 class Signup(Handler):
     def get(self):
         self.render("signup.html")
@@ -56,7 +94,6 @@ class Signup(Handler):
         params['username'] = username
         params['email'] = email
         params['password'] = password
-
 
         # server side validations
         # for required values
@@ -79,7 +116,17 @@ class Signup(Handler):
             params['error'] = "Your passwords didn't match."
             self.render("signup.html", **params)
 
-        self.write("You have sucessfully signedup :)")
+        # for checking user in database
+        if UserDB.by_name(username):
+            params['error'] = "Username already taken"
+            self.render("signup.html", **params)
+        elif email !="" and UserDB.by_email(email):
+            params['error'] = "Email id already in use by another user"
+            self.render("signup.html", **params)
+        else:
+            u = UserDB.register(username, password, email)
+            u.put()
+            self.write("You have sucessfully signedup :)")
 
 
 class Login(Handler):
@@ -97,6 +144,7 @@ class Login(Handler):
             self.render("login.html", **params)
 
         self.write("You have sucessfully logged in")
+
 
 class MainPage(Handler):
 
