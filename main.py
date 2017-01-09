@@ -13,11 +13,20 @@ import webapp2
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
+# secret message to hash password
 SECRET = "itssecret"
 
 # methods for password hashing
 def hash_str(s):
     return hmac.new(SECRET, s).hexdigest()
+
+def make_secure_val(val):
+    return '%s|%s' % (val, hash_str(val))
+
+def check_secure_val(secure_val):
+    val = secure_val.split('|')[0]
+    if secure_val == make_secure_val(val):
+        return val
 
 
 # model for post database
@@ -68,6 +77,32 @@ class Handler(webapp2.RequestHandler):
 
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
+
+    def set_secure_cookie(self, name, val):
+        cookie_val = make_secure_val(val)
+        self.response.headers.add_header(
+            'Set-Cookie',
+            '%s=%s; Path=/' % (str(name), str(cookie_val)))
+
+    def read_secure_cookie(self, name):
+        cookie_val = self.request.cookies.get(name)
+        return cookie_val and check_secure_val(cookie_val)
+
+    def login(self, user):
+        self.set_secure_cookie('username', str(user.username))
+        self.redirect('/')
+
+    def logout(self):
+        self.response.headers.add_header('Set-Cookie', 'username=; Path=/')
+
+    def logged(self):
+        return self.read_secure_cookie("username")
+
+    def initialize(self, *a, **kw):
+        webapp2.RequestHandler.initialize(self, *a, **kw)
+        uname = self.read_secure_cookie('username')
+        self.user = uname and UserDB.by_name(uname)
+
 
 
 # regex expressions to check for validations
@@ -126,7 +161,9 @@ class Signup(Handler):
         else:
             u = UserDB.register(username, password, email)
             u.put()
-            self.write("You have sucessfully signedup :)")
+
+            self.login(u)
+            self.redirect('/')
 
 
 class Login(Handler):
@@ -153,17 +190,24 @@ class Login(Handler):
                 params['error'] = "Incorrect password"
                 self.render("login.html", **params)
             else:
-                self.write("You have sucessfully logged in")
+                self.login(user)
+                self.redirect('/')
+
+class Logout(Handler):
+    def get(self):
+        self.logout()
+        self.redirect('/')
 
 
 class MainPage(Handler):
 
     def get(self):
-        self.render("post.html")
+        self.render("post.html", user = self.logged())
 
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/signup', Signup),
-    ('/login', Login)
+    ('/login', Login),
+    ('/logout', Logout)
 ], debug=True)
