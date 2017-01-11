@@ -37,13 +37,15 @@
   {% endif %}
 </div>
 
+{% if user %}
 <div class="fixed-action-btn">
  <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
    <i class="large material-icons">description</i>
  </a>
  <ul>
-   <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab"><i class="material-icons">add</i></a></li>
+   <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab" href="/new"><i class="material-icons">add</i></a></li>
  </ul>
 </div>
+{% endif %}
 
 {% endblock %}

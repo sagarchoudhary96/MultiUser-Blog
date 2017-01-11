@@ -245,6 +245,10 @@ textarea.materialize-textarea:focus:not([readonly])+label {
     border-radius: 5px;
 }
 
+.btn.post-edit-new:focus {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
 .btn.post-edit-new:hover {
     background-color: rgba(0, 0, 0, 0.3);
 }
