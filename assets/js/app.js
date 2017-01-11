@@ -78,3 +78,25 @@ var validate_signin = function() {
 
   $("#signin").submit();
 };
+
+//Validations for new post
+var validate_new_post = function() {
+  var post_title = $("#post-title");
+  var image_url = $("#post-image-url");
+  var post_content = $("#post-content");
+
+  if (post_title.val() == "" || image_url.val() == "" || post_content.val() == ""){
+    Materialize.toast("All fields are required.", 5000);
+    if(post_title.val() == "") {
+      post_title.focus();
+    }
+    else if (image_url.val() == "") {
+      image_url.focus();
+    }
+    else {
+      post_content.focus();
+    }
+    return false;
+  }
+  $("#new_post").submit();
+};
