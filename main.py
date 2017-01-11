@@ -29,8 +29,8 @@ def check_secure_val(secure_val):
         return val
 
 
-def posts_key(group = 'default'):
-    return db.key.from_path('posts', group)
+def posts_key(name = 'default'):
+    return db.Key.from_path('posts', name)
 
 # model for post database
 class Posts(db.Model):
@@ -40,6 +40,7 @@ class Posts(db.Model):
      author = db.StringProperty(required = True)
      created = db.DateTimeProperty(auto_now_add = True)
      last_modified = db.DateTimeProperty(auto_now = True)
+
 
 
 def users_key(group = 'default'):
@@ -205,7 +206,6 @@ class Logout(Handler):
         self.logout()
         self.redirect('/')
 
-
 # Handler to add new post
 class NewPost(Handler):
     def get(self):
@@ -222,13 +222,29 @@ class NewPost(Handler):
         title = self.request.get("post_title")
         image_url = self.request.get("image_url")
         post_content = self.request.get("post_content")
+
         params = dict(user = self.logged(),
                         post_title = title,
                         post_image_url = image_url,
                         post_content = post_content)
-        if (title == "" or image_url == "" or post_content == ""):
+
+        if (title and image_url and post_content):
+            post_content = post_content.replace('\n', '<br>')
+            p = Posts(parent = posts_key(),
+                        title = title,
+                        imageurl = image_url,
+                        content = post_content,
+                        author = self.logged())
+            p.put()
+            self.redirect('/post/%s' %str(p.key().id()))
+
+        else:
             params['error'] = "All fields are required"
             self.render("new_post.html", **params)
+
+class PostDetail(Handler):
+    def get(self, post_id):
+        self.write("hello")
 
 
 class MainPage(Handler):
@@ -242,5 +258,6 @@ app = webapp2.WSGIApplication([
     ('/signup', Signup),
     ('/login', Login),
     ('/logout', Logout),
-    ('/new', NewPost)
+    ('/new', NewPost),
+    ('/post/(\d+)', PostDetail)
 ], debug=True)
