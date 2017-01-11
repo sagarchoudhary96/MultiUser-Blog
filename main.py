@@ -29,6 +29,9 @@ def check_secure_val(secure_val):
         return val
 
 
+def posts_key(group = 'default'):
+    return db.key.from_path('posts', group)
+
 # model for post database
 class Posts(db.Model):
      title = db.StringProperty(required = True)
@@ -168,7 +171,10 @@ class Signup(Handler):
 
 class Login(Handler):
     def get(self):
-        self.render("login.html")
+        if self.logged():
+            self.redirect("/")
+        else:
+            self.render("login.html")
 
     def post(self):
         username = self.request.get("username")
@@ -179,24 +185,50 @@ class Login(Handler):
         if not valid_username(username):
             params['error'] = "That's not a valid username."
             self.render("login.html", **params)
-
-        user = UserDB.by_name(username)
-        if not user:
-            params['error'] = "User with this username don't exists. Please Signup First"
-            self.render("login.html", **params)
         else:
-            password_hash = hash_str(password)
-            if user.password_hash != password_hash:
-                params['error'] = "Incorrect password"
+            user = UserDB.by_name(username)
+            if not user:
+                params['error'] = "User with this username don't exists. Please Signup First"
                 self.render("login.html", **params)
             else:
-                self.login(user)
-                self.redirect('/')
+                password_hash = hash_str(password)
+                if user.password_hash != password_hash:
+                    params['error'] = "Incorrect password"
+                    self.render("login.html", **params)
+                else:
+                    self.login(user)
+                    self.redirect('/')
 
+# Handler to logout user
 class Logout(Handler):
     def get(self):
         self.logout()
         self.redirect('/')
+
+
+# Handler to add new post
+class NewPost(Handler):
+    def get(self):
+        if self.logged():
+            self.render("new_post.html", user = self.logged())
+        else:
+            self.redirect("/login")
+
+    def post(self):
+
+        if not self.logged():
+            self.redirect("/")
+
+        title = self.request.get("post_title")
+        image_url = self.request.get("image_url")
+        post_content = self.request.get("post_content")
+        params = dict(user = self.logged(),
+                        post_title = title,
+                        post_image_url = image_url,
+                        post_content = post_content)
+        if (title == "" or image_url == "" or post_content == ""):
+            params['error'] = "All fields are required"
+            self.render("new_post.html", **params)
 
 
 class MainPage(Handler):
@@ -209,5 +241,6 @@ app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/signup', Signup),
     ('/login', Login),
-    ('/logout', Logout)
+    ('/logout', Logout),
+    ('/new', NewPost)
 ], debug=True)
