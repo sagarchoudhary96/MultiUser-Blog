@@ -40,7 +40,7 @@ class Posts(db.Model):
      author = db.StringProperty(required = True)
      created = db.DateTimeProperty(auto_now_add = True)
      last_modified = db.DateTimeProperty(auto_now = True)
-
+     post_likes = db.IntegerProperty(required = True)
 
 
 def users_key(group = 'default'):
@@ -222,6 +222,7 @@ class NewPost(Handler):
         title = self.request.get("post_title")
         image_url = self.request.get("image_url")
         post_content = self.request.get("post_content")
+        post_likes = 0
 
         params = dict(user = self.logged(),
                         post_title = title,
@@ -234,7 +235,9 @@ class NewPost(Handler):
                         title = title,
                         imageurl = image_url,
                         content = post_content,
-                        author = self.logged())
+                        author = self.logged(),
+                        post_likes = post_likes)
+
             p.put()
             self.redirect('/post/%s' %str(p.key().id()))
 
