@@ -244,7 +244,18 @@ class NewPost(Handler):
 
 class PostDetail(Handler):
     def get(self, post_id):
-        self.write("hello")
+        user = self.logged()
+        if not user:
+            self.redirect("/login")
+
+        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        post = db.get(key)
+
+        if not post:
+            self.write("Error 404")
+            return
+
+        self.render("post_detail.html", user = user, post = post)
 
 
 class MainPage(Handler):
