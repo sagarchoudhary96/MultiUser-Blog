@@ -248,8 +248,6 @@ class NewPost(Handler):
 class PostDetail(Handler):
     def get(self, post_id):
         user = self.logged()
-        if not user:
-            self.redirect("/login")
 
         key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
         post = db.get(key)
@@ -275,7 +273,8 @@ class EditPost(Handler):
             self.write("Error 404")
             return
         if user != post.author:
-            self.write("Error 404")
+            error = "Cannot edit post. Only the owner can edit the post"
+            self.render("post_detail.html", user = user, post = post, error = error)
         else:
             content  = post.content.replace('<br>', '\n')
             post.content = content
@@ -299,7 +298,8 @@ class EditPost(Handler):
                 self.write("Error 404")
                 return
             if user != post.author:
-                self.write("Error 404")
+                error = "Cannot edit post. Only the owner can edit the post"
+                self.render("post_detail.html", user = user, post = post, error = error)
             else:
                 post_content = post_content.replace('\n', '<br>')
                 post.content = post_content
@@ -315,6 +315,23 @@ class EditPost(Handler):
             self.render("new_post.html", user = user, post = post, error = error )
 
 
+# Handler to delete post
+class DeletePost(Handler):
+    def get(self, post_id):
+        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        post = db.get(key)
+        user = self.logged()
+
+        if not post:
+            self.write("Error 404")
+            return
+        elif user == post.author:
+            post.delete()
+            self.redirect('/')
+        else:
+            error = "Cannot delete post. Only the owner can delete the post"
+            self.render("post_detail.html", user = user, post = post, error = error)
+
 
 class MainPage(Handler):
 
@@ -329,5 +346,6 @@ app = webapp2.WSGIApplication([
     ('/logout', Logout),
     ('/new', NewPost),
     ('/post/(\d+)', PostDetail),
-    ('/edit/(\d+)', EditPost)
+    ('/edit/(\d+)', EditPost),
+    ('/delete/(\d+)', DeletePost)
 ], debug=True)
