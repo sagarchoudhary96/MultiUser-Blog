@@ -261,6 +261,61 @@ class PostDetail(Handler):
         self.render("post_detail.html", user = user, post = post)
 
 
+# Handler to edit post
+class EditPost(Handler):
+    def get(self, post_id):
+        user = self.logged()
+        if not user:
+            self.redirect('/login')
+
+        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        post = db.get(key)
+
+        if not post:
+            self.write("Error 404")
+            return
+        if user != post.author:
+            self.write("Error 404")
+        else:
+            content  = post.content.replace('<br>', '\n')
+            post.content = content
+            self.render("edit_post.html", user = user, post = post)
+
+
+    def post(self, post_id):
+        user = self.logged()
+        if not user:
+            self.redirect("/")
+
+        title = self.request.get("post_title")
+        image_url = self.request.get("image_url")
+        post_content = self.request.get("post_content")
+
+        if (title and image_url and post_content):
+            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            post = db.get(key)
+
+            if not post:
+                self.write("Error 404")
+                return
+            if user != post.author:
+                self.write("Error 404")
+            else:
+                post_content = post_content.replace('\n', '<br>')
+                post.content = post_content
+                post.imageurl = image_url
+                post.title = title
+                post.put()
+                self.redirect('/post/%s' %str(post_id))
+
+        else:
+            error = "All fields are required"
+            content  = post.content.replace('<br>', '\n')
+            post.content = content
+            self.render("new_post.html", user = user, post = post, error = error )
+
+
+
 class MainPage(Handler):
 
     def get(self):
@@ -273,5 +328,6 @@ app = webapp2.WSGIApplication([
     ('/login', Login),
     ('/logout', Logout),
     ('/new', NewPost),
-    ('/post/(\d+)', PostDetail)
+    ('/post/(\d+)', PostDetail),
+    ('/edit/(\d+)', EditPost)
 ], debug=True)
