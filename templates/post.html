@@ -2,18 +2,17 @@
 {% block content %}
 
 <div class="container">
-  {% if Posts %}
+  {% if Posts != 0 %}
     {% for post in Posts %}
       <div class="row">
         <div class="col m8 offset-m2 s10 offset-s1">
           <div class="card animi-shadow z-depth-2">
             <div class="card-image">
-              <img src="../assets/images/blog.jpg" id="post_list" style="height: 35vh" >
-              <span class="card-title">Card Title</span>
+              <img src="{{post.imageurl}}" id="post_list" style="height: 35vh" >
+              <span class="card-title">{{post.title}}</span>
             </div>
             <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
+              <p>{{post.content|safe}}</p>
             </div>
           </div>
         </div>
