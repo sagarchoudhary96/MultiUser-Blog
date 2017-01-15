@@ -337,10 +337,8 @@ class MainPage(Handler):
 
     def get(self):
         posts = db.GqlQuery("SELECT * FROM Posts ORDER BY created DESC LIMIT 10")
-        if (posts.count()!=0):
-            self.render("post.html", user = self.logged(), Posts = posts)
-        else:
-            self.render("post.html", user = self.logged(), Posts = 0)
+        self.render("post.html", user = self.logged(), Posts = posts)
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
