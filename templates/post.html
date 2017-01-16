@@ -5,15 +5,17 @@
     {% for post in Posts %}
       <div class="row">
         <div class="col m8 offset-m2 s10 offset-s1">
-          <div class="card animi-shadow z-depth-2">
-            <div class="card-image">
-              <img src="{{post.imageurl}}" id="post_list" style="height: 35vh" >
-              <span class="card-title font-thin-heading">{{post.title}}</span>
+          <a href="/post/{{post.key().id()}}">
+            <div class="card animi-shadow z-depth-2">
+              <div class="card-image">
+                <img src="{{post.imageurl}}" id="post_list" style="height: 35vh" >
+                <span class="card-title font-thin-heading">{{post.title}}</span>
+              </div>
+              <div class="card-content black-text">
+                <p>{{post.content|safe}}</p>
+              </div>
             </div>
-            <div class="card-content">
-              <p>{{post.content|safe}}</p>
-            </div>
-          </div>
+          </a>
         </div>
       </div>
     {% endfor %}
