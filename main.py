@@ -40,7 +40,7 @@ class Posts(db.Model):
      author = db.StringProperty(required = True)
      created = db.DateTimeProperty(auto_now_add = True)
      last_modified = db.DateTimeProperty(auto_now = True)
-     post_likes = db.IntegerProperty(required = True)
+     likes = db.IntegerProperty(required = True)
 
 
 def users_key(group = 'default'):
@@ -72,8 +72,7 @@ class UserDB(db.Model):
 
 # Model for likes database
 class Likes(db.Model):
-    post_id = db.Integerproperty(required = True)
-    user_id = db.Integerproperty(required = True)
+    userId = db.IntegerProperty(required = True)
 
 
 class Handler(webapp2.RequestHandler):
@@ -111,6 +110,21 @@ class Handler(webapp2.RequestHandler):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uname = self.read_secure_cookie('username')
         self.user = uname and UserDB.by_name(uname)
+
+    def is_liked(self,username,post_key):
+        if username:
+            user = db.GqlQuery("SELECT * FROM UserDB WHERE username = :user", user = username )
+            user_id = user.get().key().id()
+            like = Likes.all()
+            like.ancestor(post_key)
+            like.filter("userId = ",user_id)
+            like = like.get()
+            if like:
+                return like
+            else:
+                return False
+        else:
+            return False
 
 
 # regex expressions to check for validations
@@ -226,7 +240,7 @@ class NewPost(Handler):
         title = self.request.get("post_title")
         image_url = self.request.get("image_url")
         post_content = self.request.get("post_content")
-        post_likes = 0
+        likes = 0
 
         params = dict(user = self.logged(),
                         post_title = title,
@@ -240,7 +254,7 @@ class NewPost(Handler):
                         imageurl = image_url,
                         content = post_content,
                         author = self.logged(),
-                        post_likes = post_likes)
+                        likes = likes)
 
             p.put()
             self.redirect('/post/%s' %str(p.key().id()))
@@ -336,6 +350,43 @@ class DeletePost(Handler):
             error = "Cannot delete post. Only the owner can delete the post"
             self.render("post_detail.html", user = user, post = post, error = error)
 
+# Handler to like post
+class Like(Handler):
+    def get(self, post_id):
+        user = self.logged()
+        key = db.Key.from_path('Posts', int(post_id), parent = posts_key())
+        post = db.get(key)
+
+        if user:
+            if not post:
+                self.write("Error 404, Post not found")
+                return
+
+            else:
+                is_liked = self.is_liked(user, key)
+                if not is_liked:
+                    user = UserDB.all().filter(" username =", user).get()
+                    user_id = user.key().id()
+                    if post.author == self.logged():
+                        error = "You cannot like your own post"
+                        self.render("post_detail.html", user = self.logged(), post = post, error = error)
+                    else:
+                        new_like  = Likes(parent = key, userId = user_id)
+                        new_like.put()
+                        post.likes += 1
+                        post.put()
+                        self.redirect('/post/%s' %post_id)
+                else:
+                    is_liked.delete()
+                    post.likes -= 1
+                    post.put()
+                    self.redirect('/post/%s' %post_id)
+
+        else:
+            error = "Please Login First to like the post"
+            self.render("post_detail.html", user = self.logged(), post = post, error = error)
+
+
 
 class MainPage(Handler):
 
@@ -352,5 +403,6 @@ app = webapp2.WSGIApplication([
     ('/new', NewPost),
     ('/post/(\d+)', PostDetail),
     ('/edit/(\d+)', EditPost),
-    ('/delete/(\d+)', DeletePost)
+    ('/delete/(\d+)', DeletePost),
+    ('/like/(\d+)', Like)
 ], debug=True)
