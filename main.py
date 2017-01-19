@@ -70,6 +70,11 @@ class UserDB(db.Model):
                         password_hash = passwd_hash,
                         email = email)
 
+# Model for likes database
+class Likes(db.Model):
+    post_id = db.Integerproperty(required = True)
+    user_id = db.Integerproperty(required = True)
+
 
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -106,7 +111,6 @@ class Handler(webapp2.RequestHandler):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uname = self.read_secure_cookie('username')
         self.user = uname and UserDB.by_name(uname)
-
 
 
 # regex expressions to check for validations
