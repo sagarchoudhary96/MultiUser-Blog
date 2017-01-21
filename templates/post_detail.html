@@ -68,7 +68,7 @@
                         <div class="col s12">
                             <div class="comment-section">
                                 <div class="image-holder">
-                                    <img src="../assets/images/yuna.jpg" alt="User" />
+                                    <img src="/assets/images/yuna.jpg" alt="User" />
                                 </div>
                                 <div class="comment-desc">
                                     <p class="questions">How much does a bub membership cost?</p>
@@ -99,7 +99,7 @@
                         <div class="col s12">
                             <div class="comment-section">
                                 <div class="image-holder">
-                                    <img src="../assets/images/yuna.jpg" alt="User" />
+                                    <img src="/assets/images/yuna.jpg" alt="User" />
                                 </div>
                                 <div class="comment-desc">
                                     <p class="questions">{{comment.content|safe}}</p>
@@ -113,7 +113,7 @@
                                             <a href="">
                                                 <i class="material-icons grey-text text-darken-2">edit</i>
                                             </a>
-                                            <a href="">
+                                            <a href="/deletecomment/{{ post.key().id() }}/{{ comment.key().id() }}">
                                                 <i class="material-icons grey-text text-darken-2">delete_sweep</i>
                                             </a>
                                         </div>
