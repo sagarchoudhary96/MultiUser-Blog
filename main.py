@@ -270,12 +270,14 @@ class NewPost(Handler):
             params['error'] = "All fields are required"
             self.render("new_post.html", **params)
 
+# Handler for Detailed Post
 class PostDetail(Handler):
     def get(self, post_id):
         user = self.logged()
 
         key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
         post = db.get(key)
+        error = self.request.get('error')
 
         if not post:
             self.write("Error 404")
@@ -285,7 +287,7 @@ class PostDetail(Handler):
         comments.ancestor(key)
         comments.order('created')
 
-        self.render("post_detail.html", user = user, post = post, comments = comments)
+        self.render("post_detail.html", user = user, post = post, comments = comments, error = error)
 
 
 # Handler for adding comments
@@ -308,9 +310,35 @@ class AddComment(Handler):
                 newComment.put()
                 self.redirect('/post/%s' % str(post.key().id()))
             else:
-                self.render("post_detail.html", user = user, post = post, error = "Empty Comment")
+                self.redirect('/post/%s?error=Empty Comment' %str(post_id))
         else:
-            self.render("post_detail.html", user = user, post = post, error = "Please Login to comment on the post.")
+            self.redirect('/post/%s?error=Please Login to comment on the post.' %str(post_id))
+
+
+# Handler for Deleting comment
+class DeleteComment(Handler):
+    def get(self, post_id, comment_id):
+        user = self.logged()
+        if user:
+            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            post = db.get(key)
+
+            if not post:
+                self.write("Error 404")
+                return
+
+            comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+            comment = db.get(comment_key)
+
+            if user == comment.username:
+                comment.delete()
+                self.redirect('/post/%s' % str(post_id))
+
+            else:
+                self.redirect('/post/%s?error=You can only delete your own comment' %str(post_id))
+
+        else:
+            self.redirect('/post/%s?error="Please Login to delete your comment"' %str(post_id))
 
 
 
@@ -433,7 +461,7 @@ class MainPage(Handler):
 
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage),
+    ('/?', MainPage),
     ('/signup', Signup),
     ('/login', Login),
     ('/logout', Logout),
@@ -442,5 +470,6 @@ app = webapp2.WSGIApplication([
     ('/edit/(\d+)', EditPost),
     ('/delete/(\d+)', DeletePost),
     ('/like/(\d+)', Like),
-    ('/addcomment/(\d+)', AddComment)
+    ('/addcomment/(\d+)', AddComment),
+    ('/deletecomment/(\d+)/(\d+)', DeleteComment)
 ], debug=True)
