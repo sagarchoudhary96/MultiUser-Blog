@@ -338,7 +338,7 @@ class DeleteComment(Handler):
                 self.redirect('/post/%s?error=You can only delete your own comment' %str(post_id))
 
         else:
-            self.redirect('/post/%s?error="Please Login to delete your comment"' %str(post_id))
+            self.redirect('/post/%s?error=Please Login to delete your comment' %str(post_id))
 
 
 
@@ -356,8 +356,7 @@ class EditPost(Handler):
             self.write("Error 404")
             return
         if user != post.author:
-            error = "Cannot edit post. Only the owner can edit the post"
-            self.render("post_detail.html", user = user, post = post, error = error)
+            self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
         else:
             content  = post.content.replace('<br>', '\n')
             post.content = content
@@ -381,8 +380,7 @@ class EditPost(Handler):
                 self.write("Error 404")
                 return
             if user != post.author:
-                error = "Cannot edit post. Only the owner can edit the post"
-                self.render("post_detail.html", user = user, post = post, error = error)
+                self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
             else:
                 post_content = post_content.replace('\n', '<br>')
                 post.content = post_content
@@ -412,8 +410,8 @@ class DeletePost(Handler):
             post.delete()
             self.redirect('/')
         else:
-            error = "Cannot delete post. Only the owner can delete the post"
-            self.render("post_detail.html", user = user, post = post, error = error)
+            self.redirect('/post/%s?error=Cannot delete post. Only the owner can delete the post' %str(post_id))
+
 
 # Handler to like post
 class Like(Handler):
@@ -433,8 +431,8 @@ class Like(Handler):
                     user = UserDB.all().filter(" username =", user).get()
                     user_id = user.key().id()
                     if post.author == self.logged():
-                        error = "You cannot like your own post"
-                        self.render("post_detail.html", user = self.logged(), post = post, error = error)
+                        self.redirect('/post/%s?error=You cannot like your own post' %str(post_id))
+
                     else:
                         new_like  = Likes(parent = key, userId = user_id)
                         new_like.put()
@@ -448,9 +446,7 @@ class Like(Handler):
                     self.redirect('/post/%s' %post_id)
 
         else:
-            error = "Please Login First to like the post"
-            self.render("post_detail.html", user = self.logged(), post = post, error = error)
-
+            self.redirect('/post/%s?error=Please Login First to like the post' %str(post_id))
 
 
 class MainPage(Handler):
