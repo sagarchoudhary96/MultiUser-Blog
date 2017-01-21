@@ -100,3 +100,13 @@ var validate_new_post = function() {
   }
   $("#new_post").submit();
 };
+
+// Validations for new comment
+var validate_new_comment = function() {
+  var comment = $("#comment");
+  if (comment.val() == "") {
+    Materialize.toast("Comment is Empty!!", 5000);
+    return false;
+  }
+  $("#post-comment").submit();
+};
