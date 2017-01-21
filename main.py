@@ -287,6 +287,9 @@ class PostDetail(Handler):
 
         self.render("post_detail.html", user = user, post = post, comments = comments)
 
+
+# Handler for adding comments
+class AddComment(Handler):
     def post(self, post_id):
         user = self.logged()
 
@@ -308,6 +311,7 @@ class PostDetail(Handler):
                 self.render("post_detail.html", user = user, post = post, error = "Empty Comment")
         else:
             self.render("post_detail.html", user = user, post = post, error = "Please Login to comment on the post.")
+
 
 
 # Handler to edit post
@@ -437,5 +441,6 @@ app = webapp2.WSGIApplication([
     ('/post/(\d+)', PostDetail),
     ('/edit/(\d+)', EditPost),
     ('/delete/(\d+)', DeletePost),
-    ('/like/(\d+)', Like)
+    ('/like/(\d+)', Like),
+    ('/addcomment/(\d+)', AddComment)
 ], debug=True)
