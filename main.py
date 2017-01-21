@@ -75,6 +75,13 @@ class Likes(db.Model):
     userId = db.IntegerProperty(required = True)
 
 
+#Model for comments database
+class Comments(db.Model):
+    username = db.StringProperty(required = True)
+    content = db.TextProperty(required = True)
+    created = db.DateTimeProperty(auto_now_add = True)
+
+
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
