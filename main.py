@@ -281,7 +281,33 @@ class PostDetail(Handler):
             self.write("Error 404")
             return
 
-        self.render("post_detail.html", user = user, post = post)
+        comments = Comments.all()
+        comments.ancestor(key)
+        comments.order('created')
+
+        self.render("post_detail.html", user = user, post = post, comments = comments)
+
+    def post(self, post_id):
+        user = self.logged()
+
+        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        post = db.get(key)
+
+        if not post:
+            self.write("Error 404")
+            return
+
+        if user:
+            comment = self.request.get('comment')
+            if comment:
+                comment.replace('\n', '<br>')
+                newComment = Comments(parent = key, username = user, content = comment)
+                newComment.put()
+                self.redirect('/post/%s' % str(post.key().id()))
+            else:
+                self.render("post_detail.html", user = user, post = post, error = "Empty Comment")
+        else:
+            self.render("post_detail.html", user = user, post = post, error = "Please Login to comment on the post.")
 
 
 # Handler to edit post
