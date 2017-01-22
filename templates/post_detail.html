@@ -45,6 +45,7 @@
         <div class="col m8 offset-m2 s12 ">
             <div class="card animi-shadow z-depth-2 grey lighten-4">
                 <div class="card-content" style="padding-top: 7vh;">
+                  {% if not postcomment %}
                     <div class="row">
                         <div class="col s12">
                             <form class="col s12" id="post-comment" method="post" action="/addcomment/{{ post.key().id() }}">
@@ -62,6 +63,25 @@
                         </div>
 
                     </div>
+                    {% else %}
+                    <div class="row">
+                        <div class="col s12">
+                            <form class="col s12" id="post-comment" method="post" action="/editcomment/{{ post.key().id() }}/{{ comment.key().id() }}">
+                                <div class="input-field col s8 m10">
+                                    <textarea id="comment" name="comment" class="materialize-textarea textarea-nopadding black-text" rows="0" autofocus>{{postcomment}}</textarea>
+                                    <label for="comment" class="label-font black-text">Leave Comment</label>
+                                </div>
+                                <div class="col s4 m2">
+                                    <button type="button" onclick="validate_new_comment()" class="btn waves-effect waves-ripple orange btn-check">
+                                        <i class="material-icons">send</i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    {% endif %}
 
                     <!--Dummy comment-->
                     <div class="row">
@@ -110,7 +130,7 @@
                                             <span class="muted-txt">{{comment.created.strftime("%b %d, %Y")}}</span>
                                         </div>
                                         <div class="likes-sec right">
-                                            <a href="">
+                                            <a href="/editcomment/{{ post.key().id() }}/{{ comment.key().id() }}">
                                                 <i class="material-icons grey-text text-darken-2">edit</i>
                                             </a>
                                             <a href="/deletecomment/{{ post.key().id() }}/{{ comment.key().id() }}">

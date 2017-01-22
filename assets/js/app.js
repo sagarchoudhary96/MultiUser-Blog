@@ -106,6 +106,7 @@ var validate_new_comment = function() {
   var comment = $("#comment");
   if (comment.val() == "") {
     Materialize.toast("Comment is Empty!!", 5000);
+    comment.focus();
     return false;
   }
   $("#post-comment").submit();
