@@ -340,6 +340,54 @@ class DeleteComment(Handler):
         else:
             self.redirect('/post/%s?error=Please Login to delete your comment' %str(post_id))
 
+# Handler for Editing comment
+class EditComment(Handler):
+    def get(self, post_id, comment_id):
+        user = self.logged()
+        if user:
+            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            post = db.get(key)
+
+            if not post:
+                self.write("Error 404")
+                return
+
+            comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+            comment = db.get(comment_key)
+
+            if user == comment.username:
+                self.render("post_detail.html", user = user, post = post, postcomment = comment.content, comment = comment)
+
+            else:
+                self.redirect('/post/%s?error=You can only edit your own comment.' %str(post_id))
+        else:
+            self.redirect('/post/%s?error=Please login to edit your comment.' %str(post_id))
+
+    def post(self,post_id,comment_id):
+        user = self.logged()
+
+        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        post = db.get(key)
+
+        if not post:
+            self.write("Error 404")
+            return
+
+        comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+        comment = db.get(comment_key)
+
+        if user == comment.username:
+            content = self.request.get('comment')
+            if content:
+                content.replace('\n', '<br>')
+                comment.content = content
+                comment.put()
+                self.redirect('/post/%s' % str(post.key().id()))
+            else:
+                self.redirect('/post/%s?error=Empty Comment' %str(post_id))
+        else:
+            self.redirect('/post/%s?error=You can only edit your own comment.' %str(post_id))
+
 
 
 # Handler to edit post
@@ -467,5 +515,6 @@ app = webapp2.WSGIApplication([
     ('/delete/(\d+)', DeletePost),
     ('/like/(\d+)', Like),
     ('/addcomment/(\d+)', AddComment),
-    ('/deletecomment/(\d+)/(\d+)', DeleteComment)
+    ('/deletecomment/(\d+)/(\d+)', DeleteComment),
+    ('/editcomment/(\d+)/(\d+)', EditComment),
 ], debug=True)
