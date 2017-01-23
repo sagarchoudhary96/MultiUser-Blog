@@ -31,7 +31,8 @@ body::before {
 
 @media only screen and (max-width: 600px) {
     #post_list {
-        height: 20vh !important;
+      overflow: hidden;
+      height: 26vh;
     }
 }
 
