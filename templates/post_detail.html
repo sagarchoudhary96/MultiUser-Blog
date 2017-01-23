@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="container">
     <div class="row" style="margin-bottom: 0px;">
         <div class="col m8 offset-m2 s12 ">
@@ -32,7 +31,7 @@
                     <div class="row">
                         <div class="col s12">
                             <p class="flow-text post-detail-content">
-                              {{post.content|safe}}
+                                {{post.content|safe}}
                             </p>
                         </div>
                     </div>
@@ -41,13 +40,12 @@
         </div>
     </div>
 
-    <div class="row" style="margin-bottom: 8vh; margin-top: 5vh;">
+    <!-- <div class="row" style="margin-bottom: 8vh; margin-top: 5vh;">
         <div class="col m8 offset-m2 s12">
             <a href="base.html" class="left grey-text">
                 <button class="btn no-padding transparent z-depth-0">
                     <i class="material-icons">arrow_back</i>
-                </button>
-                Newer
+                </button> Newer
             </a>
             <a href="base.html" class="right grey-text">
                   Older
@@ -56,14 +54,14 @@
                   </button>
                 </a>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="row no-margin">
         <div class="col m8 offset-m2 s12 ">
             <div class="card animi-shadow z-depth-2 grey lighten-4">
                 <div class="card-content" style="padding-top: 7vh;">
-                  {% if not postcomment %}
+                    {% if not postcomment %}
                     <div class="row">
                         <div class="col s12">
                             <form class="col s12" id="post-comment" method="post" action="/addcomment/{{ post.key().id() }}">

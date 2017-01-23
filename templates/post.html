@@ -1,35 +1,32 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="container">
     {% for post in Posts %}
-      <div class="row">
+    <div class="row">
         <div class="col m8 offset-m2 s10 offset-s1">
-          <a href="/post/{{post.key().id()}}">
-            <div class="card animi-shadow z-depth-2">
-              <div class="card-image">
-                <img src="{{post.imageurl}}" style="height: 35vh" >
-                <span class="card-title font-thin-heading">{{post.title}}</span>
-              </div>
-              <div class="card-content black-text" id="post_list">
-                <p>{{post.content|safe|truncate(300, True)}}</p>
-              </div>
-            </div>
-          </a>
+            <a href="/post/{{post.key().id()}}">
+                <div class="card animi-shadow z-depth-2">
+                    <div class="card-image">
+                        <img src="{{post.imageurl}}" style="height: 35vh">
+                        <span class="card-title font-thin-heading">{{post.title}}</span>
+                    </div>
+                    <div class="card-content black-text" id="post_list">
+                        <p>{{post.content|safe|truncate(300, True)}}</p>
+                    </div>
+                </div>
+            </a>
         </div>
-      </div>
+    </div>
     {% endfor %}
 </div>
 
 {% if user %}
 <div class="fixed-action-btn">
- <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
-   <i class="large material-icons">description</i>
- </a>
- <ul>
-   <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab" href="/new"><i class="material-icons">add</i></a></li>
- </ul>
+    <a class="btn-floating fab_menu btn-large waves-effect waves-ripple translucent-fab z-depth-2">
+        <i class="large material-icons">description</i>
+    </a>
+    <ul>
+        <li><a class="btn-floating menu_add waves-effect waves-ripple  translucent-fab" href="/new"><i class="material-icons">add</i></a></li>
+    </ul>
 </div>
-{% endif %}
-
-{% endblock %}
+{% endif %} {% endblock %}
