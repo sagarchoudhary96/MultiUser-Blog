@@ -13,6 +13,15 @@
     <body>
 
         <nav class="transparent z-depth-0" style="margin-bottom: 10vh;">
+          {% if showBackButton %}
+          <a href="/">
+            <div class="col left">
+              <button class="btn transparent z-depth-0">
+                  <i class="material-icons">arrow_back</i>
+              </button>
+            </div>
+          </a>
+          {% endif %}
           {% if user%}
           <div class="col right logged-in-chip"  style="margin-right: 20px;">
             <div class="chip btn transparent z-depth-2" style="margin-right: 1vw; margin-top: 4vh;">

@@ -287,7 +287,7 @@ class PostDetail(Handler):
         comments.ancestor(key)
         comments.order('created')
 
-        self.render("post_detail.html", user = user, post = post, comments = comments, error = error)
+        self.render("post_detail.html", user = user, post = post, comments = comments, error = error, showBackButton = True)
 
 
 # Handler for adding comments
