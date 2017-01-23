@@ -32,6 +32,7 @@ def check_secure_val(secure_val):
 def posts_key(name = 'default'):
     return db.Key.from_path('posts', name)
 
+
 # model for post database
 class Posts(db.Model):
      title = db.StringProperty(required = True)
@@ -45,6 +46,7 @@ class Posts(db.Model):
 
 def users_key(group = 'default'):
     return db.Key.from_path('users', group)
+
 
 # Model for user database
 class UserDB(db.Model):
@@ -69,6 +71,7 @@ class UserDB(db.Model):
                         username = username,
                         password_hash = passwd_hash,
                         email = email)
+
 
 # Model for likes database
 class Likes(db.Model):
@@ -225,11 +228,13 @@ class Login(Handler):
                     self.login(user)
                     self.redirect('/')
 
+
 # Handler to logout user
 class Logout(Handler):
     def get(self):
         self.logout()
         self.redirect('/')
+
 
 # Handler to add new post
 class NewPost(Handler):
@@ -269,6 +274,7 @@ class NewPost(Handler):
         else:
             params['error'] = "All fields are required"
             self.render("new_post.html", **params)
+
 
 # Handler for Detailed Post
 class PostDetail(Handler):
@@ -340,6 +346,7 @@ class DeleteComment(Handler):
         else:
             self.redirect('/post/%s?error=Please Login to delete your comment' %str(post_id))
 
+
 # Handler for Editing comment
 class EditComment(Handler):
     def get(self, post_id, comment_id):
@@ -387,7 +394,6 @@ class EditComment(Handler):
                 self.redirect('/post/%s?error=Empty Comment' %str(post_id))
         else:
             self.redirect('/post/%s?error=You can only edit your own comment.' %str(post_id))
-
 
 
 # Handler to edit post
