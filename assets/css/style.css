@@ -30,13 +30,6 @@ body::before {
 }
 
 @media only screen and (max-width: 600px) {
-    #post_list {
-      overflow: hidden;
-      height: 26vh;
-    }
-}
-
-@media only screen and (max-width: 600px) {
     .login-button {
         margin-right: 5vw !important;
     }
@@ -49,7 +42,7 @@ body::before {
 }
 
 .font-thin-heading {
-    font-size: 25px !important;
+    font-size: 1.5rem !important;
     font-weight: 400 !important;
     color: #000 !important;
 }

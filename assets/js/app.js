@@ -111,3 +111,18 @@ var validate_new_comment = function() {
   }
   $("#post-comment").submit();
 };
+
+// Function to truncate text on post-list on mobile view
+var mq = window.matchMedia( "(max-width: 600px)" );
+if (mq.matches) {
+  // window width is at max 600px
+  $(document).ready(function(){
+    $("#post_list").each(function(i){
+      len=$(this).text().length;
+      if(len>150)
+      {
+        $(this).text($(this).text().substr(0,150)+'...');
+      }
+    });
+  });
+}
