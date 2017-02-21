@@ -336,7 +336,7 @@ class DeleteComment(Handler):
             comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
             comment = db.get(comment_key)
 
-            if user == comment.username:
+            if user == comment.username or user=='admin':
                 comment.delete()
                 self.redirect('/post/%s' % str(post_id))
 
@@ -362,7 +362,7 @@ class EditComment(Handler):
             comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
             comment = db.get(comment_key)
 
-            if user == comment.username:
+            if user == comment.username or user=='admin':
                 self.render("post_detail.html", user = user, post = post, postcomment = comment.content, comment = comment)
 
             else:
@@ -383,7 +383,7 @@ class EditComment(Handler):
         comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
         comment = db.get(comment_key)
 
-        if user == comment.username:
+        if user == comment.username or user == 'admin':
             content = self.request.get('comment')
             if content:
                 content.replace('\n', '<br>')
@@ -409,7 +409,7 @@ class EditPost(Handler):
         if not post:
             self.write("Error 404")
             return
-        if user != post.author:
+        if user != post.author and user != 'admin':
             self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
         else:
             content  = post.content.replace('<br>', '\n')
@@ -433,7 +433,7 @@ class EditPost(Handler):
             if not post:
                 self.write("Error 404")
                 return
-            if user != post.author:
+            if user != post.author and user != 'admin':
                 self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
             else:
                 post_content = post_content.replace('\n', '<br>')
@@ -460,7 +460,7 @@ class DeletePost(Handler):
         if not post:
             self.write("Error 404")
             return
-        elif user == post.author:
+        elif user == post.author or user == 'admin':
             post.delete()
             self.redirect('/')
         else:
