@@ -11,17 +11,21 @@ import jinja2
 import webapp2
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
+jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
+                               autoescape=True)
 
 # secret message to hash password
 SECRET = "itssecret"
+
 
 # methods for password hashing
 def hash_str(s):
     return hmac.new(SECRET, s).hexdigest()
 
+
 def make_secure_val(val):
     return '%s|%s' % (val, hash_str(val))
+
 
 def check_secure_val(secure_val):
     val = secure_val.split('|')[0]
@@ -29,30 +33,30 @@ def check_secure_val(secure_val):
         return val
 
 
-def posts_key(name = 'default'):
+def posts_key(name='default'):
     return db.Key.from_path('posts', name)
 
 
 # model for post database
 class Posts(db.Model):
-     title = db.StringProperty(required = True)
-     imageurl = db.StringProperty(required = True)
-     content = db.TextProperty( required = True)
-     author = db.StringProperty(required = True)
-     created = db.DateTimeProperty(auto_now_add = True)
-     last_modified = db.DateTimeProperty(auto_now = True)
-     likes = db.IntegerProperty(required = True)
+    title = db.StringProperty(required=True)
+    imageurl = db.StringProperty(required=True)
+    content = db.TextProperty(required=True)
+    author = db.StringProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
+    last_modified = db.DateTimeProperty(auto_now=True)
+    likes = db.IntegerProperty(required=True)
 
 
-def users_key(group = 'default'):
+def users_key(group='default'):
     return db.Key.from_path('users', group)
 
 
 # Model for user database
 class UserDB(db.Model):
-    username = db.StringProperty(required = True)
+    username = db.StringProperty(required=True)
     email = db.StringProperty()
-    password_hash = db.StringProperty(required = True)
+    password_hash = db.StringProperty(required=True)
 
     @classmethod
     def by_name(cls, uname):
@@ -67,22 +71,22 @@ class UserDB(db.Model):
     @classmethod
     def register(cls, username, password, email):
         passwd_hash = hash_str(password)
-        return UserDB(parent = users_key(),
-                        username = username,
-                        password_hash = passwd_hash,
-                        email = email)
+        return UserDB(parent=users_key(),
+                      username=username,
+                      password_hash=passwd_hash,
+                      email=email)
 
 
 # Model for likes database
 class Likes(db.Model):
-    userId = db.IntegerProperty(required = True)
+    userId = db.IntegerProperty(required=True)
 
 
-#Model for comments database
+# Model for comments database
 class Comments(db.Model):
-    username = db.StringProperty(required = True)
-    content = db.TextProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
+    username = db.StringProperty(required=True)
+    content = db.TextProperty(required=True)
+    created = db.DateTimeProperty(auto_now_add=True)
 
 
 class Handler(webapp2.RequestHandler):
@@ -121,13 +125,14 @@ class Handler(webapp2.RequestHandler):
         uname = self.read_secure_cookie('username')
         self.user = uname and UserDB.by_name(uname)
 
-    def is_liked(self,username,post_key):
+    def is_liked(self, username, post_key):
         if username:
-            user = db.GqlQuery("SELECT * FROM UserDB WHERE username = :user", user = username )
+            user = db.GqlQuery("SELECT * FROM UserDB WHERE username = :user",
+                               user=username)
             user_id = user.get().key().id()
             like = Likes.all()
             like.ancestor(post_key)
-            like.filter("userId = ",user_id)
+            like.filter("userId = ", user_id)
             like = like.get()
             if like:
                 return like
@@ -139,10 +144,14 @@ class Handler(webapp2.RequestHandler):
 
 # regex expressions to check for validations
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{1,10}$")
+
+
 def valid_username(username):
     return username and USER_RE.match(username)
 
-EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+
+
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
@@ -164,8 +173,8 @@ class Signup(Handler):
 
         # server side validations
         # for required values
-        if (username == "" or password == "" or verify_password==""):
-            params['error'] =  "Required Fields can't be Empty"
+        if (username == "" or password == "" or verify_password == ""):
+            params['error'] = "Required Fields can't be Empty"
             self.render("signup.html", **params)
 
         # for valid username
@@ -174,12 +183,13 @@ class Signup(Handler):
             self.render("signup.html", **params)
 
         # for valid email
-        if email !="" and not valid_email(email):
+        if email != "" and not valid_email(email):
             params['error'] = "That's not a valid email."
             self.render("signup.html", **params)
 
         # for password
-        if password != verify_password and password != "" and verify_password != "":
+        if password != verify_password and password != "" \
+                and verify_password != "":
             params['error'] = "Your passwords didn't match."
             self.render("signup.html", **params)
 
@@ -187,7 +197,7 @@ class Signup(Handler):
         if UserDB.by_name(username):
             params['error'] = "Username already taken"
             self.render("signup.html", **params)
-        elif email !="" and UserDB.by_email(email):
+        elif email != "" and UserDB.by_email(email):
             params['error'] = "Email id already in use by another user"
             self.render("signup.html", **params)
         else:
@@ -217,7 +227,8 @@ class Login(Handler):
         else:
             user = UserDB.by_name(username)
             if not user:
-                params['error'] = "User with this username don't exists. Please Signup First"
+                params['error'] = """User with this username don't exists.
+                Please Signup First"""
                 self.render("login.html", **params)
             else:
                 password_hash = hash_str(password)
@@ -240,7 +251,7 @@ class Logout(Handler):
 class NewPost(Handler):
     def get(self):
         if self.logged():
-            self.render("new_post.html", user = self.logged())
+            self.render("new_post.html", user=self.logged())
         else:
             self.redirect("/login")
 
@@ -254,22 +265,22 @@ class NewPost(Handler):
         post_content = self.request.get("post_content")
         likes = 0
 
-        params = dict(user = self.logged(),
-                        post_title = title,
-                        post_image_url = image_url,
-                        post_content = post_content)
+        params = dict(user=self.logged(),
+                      post_title=title,
+                      post_image_url=image_url,
+                      post_content=post_content)
 
         if (title and image_url and post_content):
             post_content = post_content.replace('\n', '<br>')
-            p = Posts(parent = posts_key(),
-                        title = title,
-                        imageurl = image_url,
-                        content = post_content,
-                        author = self.logged(),
-                        likes = likes)
+            p = Posts(parent=posts_key(),
+                      title=title,
+                      imageurl=image_url,
+                      content=post_content,
+                      author=self.logged(),
+                      likes=likes)
 
             p.put()
-            self.redirect('/post/%s' %str(p.key().id()))
+            self.redirect('/post/%s' % str(p.key().id()))
 
         else:
             params['error'] = "All fields are required"
@@ -281,7 +292,7 @@ class PostDetail(Handler):
     def get(self, post_id):
         user = self.logged()
 
-        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
         error = self.request.get('error')
 
@@ -293,7 +304,12 @@ class PostDetail(Handler):
         comments.ancestor(key)
         comments.order('created')
 
-        self.render("post_detail.html", user = user, post = post, comments = comments, error = error, showBackButton = True)
+        self.render("post_detail.html",
+                    user=user,
+                    post=post,
+                    comments=comments,
+                    error=error,
+                    showBackButton=True)
 
 
 # Handler for adding comments
@@ -301,7 +317,7 @@ class AddComment(Handler):
     def post(self, post_id):
         user = self.logged()
 
-        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
 
         if not post:
@@ -312,13 +328,16 @@ class AddComment(Handler):
             comment = self.request.get('comment')
             if comment:
                 comment.replace('\n', '<br>')
-                newComment = Comments(parent = key, username = user, content = comment)
+                newComment = Comments(parent=key,
+                                      username=user,
+                                      content=comment)
                 newComment.put()
                 self.redirect('/post/%s' % str(post.key().id()))
             else:
-                self.redirect('/post/%s?error=Empty Comment' %str(post_id))
+                self.redirect('/post/%s?error=Empty Comment' % str(post_id))
         else:
-            self.redirect('/post/%s?error=Please Login to comment on the post.' %str(post_id))
+            self.redirect("""/post/%s?error=Please Login to comment on the
+            post.""" % str(post_id))
 
 
 # Handler for Deleting comment
@@ -326,25 +345,28 @@ class DeleteComment(Handler):
     def get(self, post_id, comment_id):
         user = self.logged()
         if user:
-            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
             post = db.get(key)
 
             if not post:
                 self.write("Error 404")
                 return
 
-            comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+            comment_key = db.Key.from_path('Comments',
+                                           int(comment_id), parent=key)
             comment = db.get(comment_key)
 
-            if user == comment.username or user=='admin':
+            if user == comment.username or user == 'admin':
                 comment.delete()
                 self.redirect('/post/%s' % str(post_id))
 
             else:
-                self.redirect('/post/%s?error=You can only delete your own comment' %str(post_id))
+                self.redirect("""/post/%s?error=You can only delete
+                your own comment""" % str(post_id))
 
         else:
-            self.redirect('/post/%s?error=Please Login to delete your comment' %str(post_id))
+            self.redirect("""/post/%s?error=Please Login to
+            delete your comment""" % str(post_id))
 
 
 # Handler for Editing comment
@@ -352,35 +374,40 @@ class EditComment(Handler):
     def get(self, post_id, comment_id):
         user = self.logged()
         if user:
-            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
             post = db.get(key)
 
             if not post:
                 self.write("Error 404")
                 return
 
-            comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+            comment_key = db.Key.from_path('Comments',
+                                           int(comment_id), parent=key)
             comment = db.get(comment_key)
 
-            if user == comment.username or user=='admin':
-                self.render("post_detail.html", user = user, post = post, postcomment = comment.content, comment = comment)
+            if user == comment.username or user == 'admin':
+                self.render("post_detail.html", user=user, post=post,
+                            postcomment=comment.content,
+                            comment=comment)
 
             else:
-                self.redirect('/post/%s?error=You can only edit your own comment.' %str(post_id))
+                self.redirect("""/post/%s?error=You can only edit
+                your own comment.""" % str(post_id))
         else:
-            self.redirect('/post/%s?error=Please login to edit your comment.' %str(post_id))
+            self.redirect("""/post/%s?error=Please login to
+            edit your comment.""" % str(post_id))
 
-    def post(self,post_id,comment_id):
+    def post(self, post_id, comment_id):
         user = self.logged()
 
-        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
 
         if not post:
             self.write("Error 404")
             return
 
-        comment_key = db.Key.from_path('Comments', int(comment_id), parent = key)
+        comment_key = db.Key.from_path('Comments', int(comment_id), parent=key)
         comment = db.get(comment_key)
 
         if user == comment.username or user == 'admin':
@@ -391,9 +418,11 @@ class EditComment(Handler):
                 comment.put()
                 self.redirect('/post/%s' % str(post.key().id()))
             else:
-                self.redirect('/post/%s?error=Empty Comment' %str(post_id))
+                self.redirect("""/post/%s?error=Empty
+                Comment""" % str(post_id))
         else:
-            self.redirect('/post/%s?error=You can only edit your own comment.' %str(post_id))
+            self.redirect("""/post/%s?error=You can only
+            edit your own comment.""" % str(post_id))
 
 
 # Handler to edit post
@@ -403,19 +432,19 @@ class EditPost(Handler):
         if not user:
             self.redirect('/login')
 
-        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
 
         if not post:
             self.write("Error 404")
             return
         if user != post.author and user != 'admin':
-            self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
+            self.redirect("""/post/%s?error=Cannot edit post. Only the
+            owner can edit the post""" % str(post_id))
         else:
-            content  = post.content.replace('<br>', '\n')
+            content = post.content.replace('<br>', '\n')
             post.content = content
-            self.render("edit_post.html", user = user, post = post)
-
+            self.render("edit_post.html", user=user, post=post)
 
     def post(self, post_id):
         user = self.logged()
@@ -427,33 +456,35 @@ class EditPost(Handler):
         post_content = self.request.get("post_content")
 
         if (title and image_url and post_content):
-            key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+            key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
             post = db.get(key)
 
             if not post:
                 self.write("Error 404")
                 return
             if user != post.author and user != 'admin':
-                self.redirect('/post/%s?error=Cannot edit post. Only the owner can edit the post' %str(post_id))
+                self.redirect("""/post/%s?error=Cannot edit post.
+                Only the owner can edit the post""" % str(post_id))
             else:
                 post_content = post_content.replace('\n', '<br>')
                 post.content = post_content
                 post.imageurl = image_url
                 post.title = title
                 post.put()
-                self.redirect('/post/%s' %str(post_id))
+                self.redirect('/post/%s' % str(post_id))
 
         else:
             error = "All fields are required"
-            content  = post.content.replace('<br>', '\n')
+            content = post.content.replace('<br>', '\n')
             post.content = content
-            self.render("new_post.html", user = user, post = post, error = error )
+            self.render("new_post.html", user=user,
+                        post=post, error=error)
 
 
 # Handler to delete post
 class DeletePost(Handler):
     def get(self, post_id):
-        key = db.Key.from_path('Posts',int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
         user = self.logged()
 
@@ -464,14 +495,15 @@ class DeletePost(Handler):
             post.delete()
             self.redirect('/')
         else:
-            self.redirect('/post/%s?error=Cannot delete post. Only the owner can delete the post' %str(post_id))
+            self.redirect("""/post/%s?error=Cannot delete post. Only the
+            owner can delete the post""" % str(post_id))
 
 
 # Handler to like post
 class Like(Handler):
     def get(self, post_id):
         user = self.logged()
-        key = db.Key.from_path('Posts', int(post_id), parent = posts_key())
+        key = db.Key.from_path('Posts', int(post_id), parent=posts_key())
         post = db.get(key)
 
         if user:
@@ -485,29 +517,33 @@ class Like(Handler):
                     user = UserDB.all().filter(" username =", user).get()
                     user_id = user.key().id()
                     if post.author == self.logged():
-                        self.redirect('/post/%s?error=You cannot like your own post' %str(post_id))
+                        self.redirect("""/post/%s?error=You cannot like
+                        your own post""" % str(post_id))
 
                     else:
-                        new_like  = Likes(parent = key, userId = user_id)
+                        new_like = Likes(parent=key, userId=user_id)
                         new_like.put()
                         post.likes += 1
                         post.put()
-                        self.redirect('/post/%s' %post_id)
+                        self.redirect('/post/%s' % post_id)
                 else:
                     is_liked.delete()
                     post.likes -= 1
                     post.put()
-                    self.redirect('/post/%s' %post_id)
+                    self.redirect('/post/%s' % post_id)
 
         else:
-            self.redirect('/post/%s?error=Please Login First to like the post' %str(post_id))
+            self.redirect("""/post/%s?error=Please Login First to
+            like the post""" % str(post_id))
 
 
 class MainPage(Handler):
 
     def get(self):
-        posts = db.GqlQuery("SELECT * FROM Posts ORDER BY created DESC LIMIT 10")
-        self.render("post.html", user = self.logged(), Posts = posts)
+        posts = db.GqlQuery("""SELECT * FROM Posts ORDER BY
+        created DESC LIMIT 10""")
+        self.render("post.html", user=self.logged(),
+                    Posts=posts)
 
 
 app = webapp2.WSGIApplication([
@@ -522,5 +558,5 @@ app = webapp2.WSGIApplication([
     ('/like/(\d+)', Like),
     ('/addcomment/(\d+)', AddComment),
     ('/deletecomment/(\d+)/(\d+)', DeleteComment),
-    ('/editcomment/(\d+)/(\d+)', EditComment),
+    ('/editcomment/(\d+)/(\d+)', EditComment)
 ], debug=True)
